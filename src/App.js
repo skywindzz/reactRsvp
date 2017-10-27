@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import GuestList from './GuestList';
+import Counter from './Counter';
+import Header from './Header';
 
 class App extends Component {
 
@@ -47,6 +49,16 @@ class App extends Component {
       pendingGuest: ''
     });
   } 
+
+  getTotalInvited = () => this.state.guests.length;
+
+  getAttending = () => this.state.guests.reduce(
+    (total,guest) => guest.isConfirmed ? total + 1 : total,
+    0
+  );
+
+
+
   toggleGuestPropertyAt = (property, indexToChange) => 
     this.setState({
       guests: this.state.guests.map((guest,index) => {
@@ -92,20 +104,18 @@ class App extends Component {
     }
 
   render() {
+    { /* you put totaledInvited inside render because you want it to update everytime you reender and data update */ }
+    const totalInvited = this.getTotalInvited();
+    const numberAttending  = this.getAttending();
+    const numberUncomfirmed = totalInvited - numberAttending;
+    
     return (
       <div className="App">
-      <header>
-        <h1>RSVP</h1>
-        <p>A Treehouse App</p>
-        <form onSubmit={this.submitNewGuest}>
-            <input 
-              type="text" 
-              onChange={this.handleNameInput} 
-              value={this.state.pendingGuest} 
-              placeholder="Invite Someone" />
-            <button type="submit" name="submit" value="submit">Submit</button>
-        </form>
-      </header>
+        <Header 
+          submitNewGuest={this.submitNewGuest}
+          handleNameInput={this.handleNameInput}
+          pendingGuest={this.state.pendingGuest}
+        />
       <div className="main">
         <div>
           <h2>Invitees</h2>
@@ -116,26 +126,18 @@ class App extends Component {
               checked={this.state.isFiltered} /> Hide those who haven't responded
           </label>
         </div>
-        <table className="counter">
-          <tbody>
-            <tr>
-              <td>Attending:</td>
-              <td>2</td>
-            </tr>
-            <tr>
-              <td>Unconfirmed:</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Total:</td>
-              <td>3</td>
-            </tr>
-          </tbody>
-        </table>
+        
         { /* to make HTML comment in react you need to first do in javascript's comment format
         and you also need to put it inside a bracket */ }
         { /* so in react parent pass objects down to it's child example here is 
         Guestlist in app.js pass down two piece of object down to Guestlist.js */ }
+        
+        <Counter 
+          totalInvited={totalInvited}
+          numberAttending={numberAttending} 
+          numberUncomfirmed={numberUncomfirmed}
+          />
+        { /*Beware if variable is decleared inside the render you can't this this.totalInvited */ }
 
         <GuestList 
           guests = {this.state.guests} 
@@ -145,8 +147,7 @@ class App extends Component {
           removeElementAt= {this.handleRemoval}
           isFiltered = {this.state.isFiltered} 
           pendingGuest={this.state.pendingGuest} />
-
-          </div>
+          </div>    
     </div>
     );
   }
