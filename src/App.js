@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import GuestList from './GuestListComponent/GuestList';
-import Counter from './Counter';
-import Header from './Header';
+import MainComponent from './MainComponent/MainComponent';
+import Header from './Header/Header';
 
 class App extends Component {
 
@@ -116,39 +115,22 @@ class App extends Component {
           handleNameInput={this.handleNameInput}
           pendingGuest={this.state.pendingGuest}
         />
-      <div className="main">
-        <div>
-          <h2>Invitees</h2>
-          <label>
-            <input 
-              type="checkbox" 
-              onChange={this.toggleFilter} 
-              checked={this.state.isFiltered} /> Hide those who haven't responded
-          </label>
-        </div>
-        
-        { /* to make HTML comment in react you need to first do in javascript's comment format
-        and you also need to put it inside a bracket */ }
-        { /* so in react parent pass objects down to it's child example here is 
-        Guestlist in app.js pass down two piece of object down to Guestlist.js */ }
-        
-        <Counter 
-          totalInvited={totalInvited}
-          numberAttending={numberAttending} 
-          numberUncomfirmed={numberUncomfirmed}
-          />
-        { /*Beware if variable is decleared inside the render you can't this this.totalInvited */ }
-
-        <GuestList 
-          guests = {this.state.guests} 
-          toggleConfirmationAt = {this.toggleConfirmationAt}
-          toggleEditingAt = {this.toggleEditingAt} 
-          setNameAt = {this.setNameAt} 
+      
+        <MainComponent
+          toggleFilter= {this.toggleFilter}
+          isFiltered= {this.state.isFiltered}
+          totalInvited= {totalInvited}
+          numberAttending= {numberAttending}
+          numberUncomfirmed= {numberUncomfirmed}
+          guests= {this.state.guests}
+          toggleConfirmationAt= {this.toggleConfirmationAt}
+          toggleEditingAt= {this.toggleEditingAt}
+          setNameAt= {this.setNameAt}
           removeElementAt= {this.handleRemoval}
-          isFiltered = {this.state.isFiltered} 
-          pendingGuest={this.state.pendingGuest} />
-          </div>    
-    </div>
+          isConfirmed= {this.state.guests.isConfirmed}
+          pendingGuest= {this.state.pendingGuest}
+        />  
+      </div>
     );
   }
 }
