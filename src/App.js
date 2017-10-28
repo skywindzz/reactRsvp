@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import GuestList from './GuestList';
+import GuestList from './GuestListComponent/GuestList';
 import Counter from './Counter';
 import Header from './Header';
 

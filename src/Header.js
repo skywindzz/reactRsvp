@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import GuestInputForm from './GuestInputForm';
 
+{ /* remember to pass in props in the function!! */}
+
 const Header = props => 
     <header>
         <h1>RSVP</h1>
