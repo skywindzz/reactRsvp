@@ -127,7 +127,6 @@ class App extends Component {
           toggleEditingAt= {this.toggleEditingAt}
           setNameAt= {this.setNameAt}
           removeElementAt= {this.handleRemoval}
-          isConfirmed= {this.state.guests.isConfirmed}
           pendingGuest= {this.state.pendingGuest}
         />  
       </div>

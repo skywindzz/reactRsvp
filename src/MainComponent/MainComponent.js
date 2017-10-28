@@ -1,21 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ConfirmFilter from './ConfirmFilter';
 import Counter from './Counter';
 import GuestList from './GuestList';
 
 
 const MainComponent = props => 
     <div className="main">
-        <div>
-            <h2>Invitees</h2>
-                <label>
-                    <input 
-                    type="checkbox" 
-                    onChange={props.toggleFilter} 
-                    checked={props.isFiltered} /> Hide those who haven't responded
-                </label>
-        </div>
+        <ConfirmFilter
+            toggleFilter = {props.toggleFilter}
+            isFiltered = {props.isFiltered} />
 
     { /* to make HTML comment in react you need to first do in javascript's comment format
     and you also need to put it inside a bracket */ }
@@ -23,10 +18,9 @@ const MainComponent = props =>
     Guestlist in app.js pass down two piece of object down to Guestlist.js */ }
 
         <Counter 
-        totalInvited={props.totalInvited}
-        numberAttending={props.numberAttending} 
-        numberUncomfirmed={props.numberUncomfirmed}
-        />
+            totalInvited={props.totalInvited}
+            numberAttending={props.numberAttending} 
+            numberUncomfirmed={props.numberUncomfirmed} />
     { /*Beware if variable is decleared inside the render you can't this this.totalInvited */ }
 
         <GuestList 
@@ -41,7 +35,6 @@ const MainComponent = props =>
     
 MainComponent.propTypes = {
     toggleFilter: PropTypes.func.isRequired,
-    isFiltered: PropTypes.func,
     totalInvited: PropTypes.number,
     numberAttending: PropTypes.number,
     numberUncomfirmed: PropTypes.number,
