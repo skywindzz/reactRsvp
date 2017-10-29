@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import MainComponent from './MainComponent/MainComponent';
-import Header from './Header/Header';
+import MainComponent from './MainComponent';  
+import Header from './Header';
+
+{/* in any folder index.js is autoload so you just need to load the parent component to index.js  */}
 
 class App extends Component {
 
@@ -9,23 +11,7 @@ class App extends Component {
 
     isFiltered : false,
     pendingGuest: '',
-    guests : [
-      {
-        name: 'Anthony',
-        isConfirmed: false,
-        isEditing: false
-      },
-      {
-        name : 'eric',
-        isConfirmed: true,
-        isEditing: false
-      },
-      {
-        name: 'olive',
-        isConfirmed: true,
-        isEditing: true
-      }
-    ]
+    guests : []
   }
   
   handleNameInput = e => {
@@ -34,11 +20,21 @@ class App extends Component {
     })
   }
 
+  lastGuestId = 0;
+
+  assignGuestId = () => {
+    const id = this.lastGuestId;
+    this.lastGuestId +=1;
+    return id;
+  } 
+
   submitNewGuest= e => {
     e.preventDefault();
+    const id = this.assignGuestId();
     this.setState({
       guests: [
         {
+         id,
          name: this.state.pendingGuest,
          isConfirmed: false,
          isEditing: false
@@ -58,10 +54,10 @@ class App extends Component {
 
 
 
-  toggleGuestPropertyAt = (property, indexToChange) => 
+  toggleGuestPropertyAt = (property, id) => 
     this.setState({
-      guests: this.state.guests.map((guest,index) => {
-        if(index === indexToChange) {
+      guests: this.state.guests.map(guest => {
+        if(id === guest.id) {
           return{
             ...guest,
             [property]: !guest[property]
@@ -71,16 +67,16 @@ class App extends Component {
       })
     });
 
-  toggleConfirmationAt = index =>   
-    this.toggleGuestPropertyAt('isConfirmed', index);
+  toggleConfirmationAt = id =>   
+    this.toggleGuestPropertyAt('isConfirmed', id);
   
-  toggleEditingAt = index =>
-    this.toggleGuestPropertyAt('isEditing', index);
+  toggleEditingAt = id =>
+    this.toggleGuestPropertyAt('isEditing', id);
  
-    setNameAt = (name, indexToChange) => 
+    setNameAt = (name, id) => 
       this.setState({
-      guests: this.state.guests.map((guest,index) => {
-        if(index === indexToChange) {
+      guests: this.state.guests.map(guest => {
+        if(id === guest.id) {
           return{
             ...guest,
             name
@@ -90,9 +86,9 @@ class App extends Component {
       })
     });
 
-    handleRemoval= index => { 
+    handleRemoval= id => { 
       this.setState({
-        guests: this.state.guests.splice(index, 1) && this.state.guests
+        guests: this.state.guests.filter(guest => id !== guest.id ) 
     });
     }
    

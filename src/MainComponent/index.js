@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import ConfirmFilter from './ConfirmFilter';
 import Counter from './Counter';
-import GuestList from './GuestList';
+import GuestList from '../MainComponent/GuestList';
 
 
 const MainComponent = props => 
