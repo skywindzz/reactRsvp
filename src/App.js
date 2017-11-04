@@ -2,18 +2,42 @@ import React, { Component } from 'react';
 import './App.css';
 import MainComponent from './MainComponent';  
 import Header from './Header';
+import {reactLocalStorage} from 'reactjs-localstorage';
 
 {/* in any folder index.js is autoload so you just need to load the parent component to index.js  */}
 
 class App extends Component {
-
+  
   state = {
-
     isFiltered : false,
     pendingGuest: '',
     guests : []
   }
+
+ /*
+ saveState = () => {
+    var str = JSON.stringify(this.state);
+    localStorage.setItem('state', str);
+  }
+
+  getState = () => {
+    var str = localStorage.getItem('state');
+    this.state = JSON.parse(str);
+    if(!this.state) {
+      this.state = {};
+    }
+  }
   
+
+  componentWillMount() {
+    this.getState();
+    this.setState(this.state);
+  }
+  */
+   
+   //save state on local storage
+
+
   handleNameInput = e => {
     this.setState({
       pendingGuest: e.target.value
@@ -52,8 +76,6 @@ class App extends Component {
     0
   );
 
-
-
   toggleGuestPropertyAt = (property, id) => 
     this.setState({
       guests: this.state.guests.map(guest => {
@@ -86,17 +108,18 @@ class App extends Component {
       })
     });
 
-    handleRemoval= id => { 
+
+    handleRemoval= id => 
       this.setState({
         guests: this.state.guests.filter(guest => id !== guest.id ) 
     });
-    }
+    
    
-    toggleFilter = () => {
+    toggleFilter = () => 
       this.setState ({
         isFiltered: !this.state.isFiltered
       });
-    }
+    
 
   render() {
     { /* you put totaledInvited inside render because you want it to update everytime you reender and data update */ }
